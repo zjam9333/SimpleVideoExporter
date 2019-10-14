@@ -13,7 +13,8 @@ AVAssetExportSession *exportSession = nil;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        printf("Hello World!\n");
+        NSString *versionStr = @"1.0";
+        printf("Hello World! Version %s\n", versionStr.UTF8String);
         if (argc < 3) {
             printf("usage: [apppath] [inputpath] [outputpath]\n");
             return 0;
@@ -41,12 +42,13 @@ int main(int argc, const char * argv[]) {
         AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:inputAsset presetName:AVAssetExportPresetHighestQuality];
         exportSession.outputURL = [NSURL fileURLWithPath:outputPath];
         exportSession.outputFileType = AVFileTypeMPEG4;
-        exportSession.shouldOptimizeForNetworkUse = YES; // ?
+//        exportSession.shouldOptimizeForNetworkUse = YES; // ?
         [exportSession exportAsynchronouslyWithCompletionHandler:^{
             
         }];
         
         int lastProgress = 0;
+        int progressLinebreakCheck = 0;
         printf("starting...\n");
         while (1) {
 //                typedef NS_ENUM(NSInteger, AVAssetExportSessionStatus) {
@@ -59,6 +61,10 @@ int main(int argc, const char * argv[]) {
 //                };
             AVAssetExportSessionStatus status = exportSession.status;
             BOOL finished = status == AVAssetExportSessionStatusCancelled || status == AVAssetExportSessionStatusFailed || status == AVAssetExportSessionStatusCompleted;
+            if (finished) {
+                printf("\n");
+            }
+            
             if (status == AVAssetExportSessionStatusExporting) {
                 float progress = exportSession.progress;
                 int intProgress = (int)(progress * 100);
@@ -67,6 +73,12 @@ int main(int argc, const char * argv[]) {
                     fflush(stdout);
 //                    usleep(100);
                     lastProgress = intProgress;
+                    
+                    progressLinebreakCheck ++;
+                    if (progressLinebreakCheck > 10) {
+                        progressLinebreakCheck = 0;
+                        printf("\n");
+                    }
                 }
             }
             else if (status == AVAssetExportSessionStatusCompleted) {
