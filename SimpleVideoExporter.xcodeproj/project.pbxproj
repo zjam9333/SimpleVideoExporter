@@ -23,8 +23,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1C13A0B823544A7400194A89 /* VideoExporter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VideoExporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C13A0B823544A7400194A89 /* SimpleVideoExporter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleVideoExporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C13A0BB23544A7400194A89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C13A0C223545AA800194A89 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +42,8 @@
 		1C13A0AF23544A7400194A89 = {
 			isa = PBXGroup;
 			children = (
-				1C13A0BA23544A7400194A89 /* VideoExporter */,
+				1C13A0C223545AA800194A89 /* README.md */,
+				1C13A0BA23544A7400194A89 /* SimpleVideoExporter */,
 				1C13A0B923544A7400194A89 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,25 +51,25 @@
 		1C13A0B923544A7400194A89 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1C13A0B823544A7400194A89 /* VideoExporter */,
+				1C13A0B823544A7400194A89 /* SimpleVideoExporter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1C13A0BA23544A7400194A89 /* VideoExporter */ = {
+		1C13A0BA23544A7400194A89 /* SimpleVideoExporter */ = {
 			isa = PBXGroup;
 			children = (
 				1C13A0BB23544A7400194A89 /* main.m */,
 			);
-			path = VideoExporter;
+			path = SimpleVideoExporter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1C13A0B723544A7400194A89 /* VideoExporter */ = {
+		1C13A0B723544A7400194A89 /* SimpleVideoExporter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C13A0BF23544A7400194A89 /* Build configuration list for PBXNativeTarget "VideoExporter" */;
+			buildConfigurationList = 1C13A0BF23544A7400194A89 /* Build configuration list for PBXNativeTarget "SimpleVideoExporter" */;
 			buildPhases = (
 				1C13A0B423544A7400194A89 /* Sources */,
 				1C13A0B523544A7400194A89 /* Frameworks */,
@@ -77,9 +79,9 @@
 			);
 			dependencies = (
 			);
-			name = VideoExporter;
+			name = SimpleVideoExporter;
 			productName = VideoExporter;
-			productReference = 1C13A0B823544A7400194A89 /* VideoExporter */;
+			productReference = 1C13A0B823544A7400194A89 /* SimpleVideoExporter */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -96,7 +98,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1C13A0B323544A7400194A89 /* Build configuration list for PBXProject "VideoExporter" */;
+			buildConfigurationList = 1C13A0B323544A7400194A89 /* Build configuration list for PBXProject "SimpleVideoExporter" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -108,7 +110,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1C13A0B723544A7400194A89 /* VideoExporter */,
+				1C13A0B723544A7400194A89 /* SimpleVideoExporter */,
 			);
 		};
 /* End PBXProject section */
@@ -255,7 +257,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C13A0B323544A7400194A89 /* Build configuration list for PBXProject "VideoExporter" */ = {
+		1C13A0B323544A7400194A89 /* Build configuration list for PBXProject "SimpleVideoExporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C13A0BD23544A7400194A89 /* Debug */,
@@ -264,7 +266,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1C13A0BF23544A7400194A89 /* Build configuration list for PBXNativeTarget "VideoExporter" */ = {
+		1C13A0BF23544A7400194A89 /* Build configuration list for PBXNativeTarget "SimpleVideoExporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1C13A0C023544A7400194A89 /* Debug */,

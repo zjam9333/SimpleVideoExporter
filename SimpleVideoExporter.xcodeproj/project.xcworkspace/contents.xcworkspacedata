@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:VideoExporter.xcodeproj">
+      location = "self:/Users/zjj/Documents/my/VideoExporter/SimpleVideoExporter.xcodeproj">
    </FileRef>
 </Workspace>
