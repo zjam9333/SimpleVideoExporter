@@ -32,9 +32,9 @@
     return self;
 }
 
-- (void)startExport {
+- (void)startExportWithCompletionHandler:(void (^)(void))handler {
     [self.exportSession exportAsynchronouslyWithCompletionHandler:^{
-        
+        dispatch_async(dispatch_get_main_queue(), handler);
     }];
 }
 

@@ -16,9 +16,11 @@
 
 @property (weak) IBOutlet NSTextField *outputPathTextField;
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
+@property (weak) IBOutlet NSTextField *tipsTextField;
 
 @property ZZVideoExporter *currentVideoExporter;
 @property NSTimer *timer;
+@property NSMutableArray *queueURLs;
 
 @end
 
@@ -28,13 +30,6 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view.
-}
-
-
-- (void)setRepresentedObject:(id)representedObject {
-    [super setRepresentedObject:representedObject];
-
-    // Update the view, if already loaded.
 }
 
 - (IBAction)selectOutputPath:(id)sender {
@@ -48,14 +43,22 @@
         if (result == NSModalResponseOK) {
             NSURL *first = panel.URLs.firstObject;
             NSString *path = first.absoluteString;
-            weakself.outputPathTextField.stringValue = path;
+            weakself.outputPathTextField.stringValue = [self pathStringByRemovingFilePrefix:path];;
         }
     }];
 }
 
 - (void)dragFileViewDidDragURLs:(NSArray *)URLs {
     NSLog(@"%@", URLs);
+    self.queueURLs = [URLs mutableCopy];
     [self exportVideoForInputURL:URLs.firstObject];
+}
+
+- (NSString *)pathStringByRemovingFilePrefix:(NSString *)pathString {
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"file:/" withString:@"/"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    pathString = [pathString stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    return pathString;
 }
 
 - (void)exportVideoForInputURL:(NSURL *)inputURL {
@@ -64,25 +67,55 @@
     }
     WeakDefine(self, weakself);
     NSString *inputPath = [inputURL absoluteString];
+    inputPath = [self pathStringByRemovingFilePrefix:inputPath];
+    self.tipsTextField.stringValue = [NSString stringWithFormat:@"正在导出：%@", inputPath];
+    
     NSString *inputFileName = [[inputPath componentsSeparatedByString:@"/"] lastObject];
-    NSString *outputPath = self.outputPathTextField.stringValue ;
-    if (outputPath.length == 0) {
+    NSString *outputDir = self.outputPathTextField.stringValue ;
+    if (outputDir.length == 0) {
         return;
     }
-    if (![[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
-        [[NSFileManager defaultManager] createDirectoryAtPath:outputPath withIntermediateDirectories:NO attributes:nil error:nil];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:outputDir]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:outputDir withIntermediateDirectories:NO attributes:nil error:nil];
     }
-    outputPath = [outputPath stringByAppendingPathComponent:inputFileName];
-    self.currentVideoExporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
-    [self.currentVideoExporter startExport];
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        NSLog(@"pro:%f", weakself.currentVideoExporter.progress);
-        weakself.progressBar.doubleValue = weakself.currentVideoExporter.progress;
-        if (weakself.currentVideoExporter.error) {
-            NSLog(@"error: %@", weakself.currentVideoExporter.error);
-            [timer invalidate];
+    NSString *outputPath = [outputDir stringByAppendingPathComponent:inputFileName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
+        NSMutableArray *nameCompos = [[inputFileName componentsSeparatedByString:@"."] mutableCopy];
+        if (nameCompos.count >= 2) {
+            NSString *insertCompo = [NSString stringWithFormat:@"%ld.%ld", (long)[NSDate timeIntervalSinceReferenceDate], (long)arc4random() % 1000];
+            [nameCompos insertObject:insertCompo atIndex:nameCompos.count - 1];
         }
+        NSString *name = [nameCompos componentsJoinedByString:@"."];
+        outputPath = [outputDir stringByAppendingPathComponent:name];
+    }
+
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.02 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        weakself.progressBar.doubleValue = weakself.currentVideoExporter.progress;
     }];
+    
+    self.currentVideoExporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
+    [self.currentVideoExporter startExportWithCompletionHandler:^{
+        [weakself.timer invalidate];
+        weakself.progressBar.doubleValue = 0;
+        NSError *err = weakself.currentVideoExporter.error;
+        if (err) {
+            weakself.tipsTextField.stringValue = err.description;
+        }
+        if (weakself.currentVideoExporter.status == AVAssetExportSessionStatusCompleted) {
+            weakself.progressBar.doubleValue = 1;
+            weakself.tipsTextField.stringValue = [NSString stringWithFormat:@"已导出：%@", outputPath];
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakself completeWithURL:inputURL];
+        });
+    }];
+}
+
+- (void)completeWithURL:(NSURL *)URL {
+    [self.queueURLs removeObject:URL];
+    if (self.queueURLs.count > 0) {
+        [self exportVideoForInputURL:self.queueURLs.firstObject];
+    }
 }
 
 @end

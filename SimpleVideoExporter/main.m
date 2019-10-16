@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
         }
         
         ZZVideoExporter *exporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
-        [exporter startExport];
+        [exporter startExportWithCompletionHandler:nil];
         
         int lastProgress = 0;
         int progressLinebreakCheck = 0;

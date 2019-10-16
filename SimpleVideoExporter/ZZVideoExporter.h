@@ -19,6 +19,6 @@
 @property (nonatomic, readonly) NSError *error;
 
 - (instancetype)initWithInputPath:(NSString *)inputPath outputPath:(NSString *)outputPath;
-- (void)startExport;
+- (void)startExportWithCompletionHandler:(void (^)(void))handler;
 
 @end
