@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVFoundation.h>
-
-AVAssetExportSession *exportSession = nil;
+#import "ZZVideoExporter.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -25,6 +23,11 @@ int main(int argc, const char * argv[]) {
         printf("input:%s\n", inputPath.UTF8String);
         printf("output:%s\n", outputPath.UTF8String);
         
+        if (![[NSFileManager defaultManager] fileExistsAtPath:inputPath]) {
+            printf("input file does not exist: %s\n", inputPath.UTF8String);
+            return 0;
+        }
+        
         if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
             printf("file exists:%s, \nover write? [y/N] ", outputPath.UTF8String);
             char userInputChar = 0;
@@ -37,15 +40,8 @@ int main(int argc, const char * argv[]) {
             }
         }
         
-        AVURLAsset *inputAsset = [AVURLAsset URLAssetWithURL:[NSURL fileURLWithPath:inputPath] options:nil];
-        //    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:inputAsset];
-        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:inputAsset presetName:AVAssetExportPresetHighestQuality];
-        exportSession.outputURL = [NSURL fileURLWithPath:outputPath];
-        exportSession.outputFileType = AVFileTypeMPEG4;
-//        exportSession.shouldOptimizeForNetworkUse = YES; // ?
-        [exportSession exportAsynchronouslyWithCompletionHandler:^{
-            
-        }];
+        ZZVideoExporter *exporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
+        [exporter startExport];
         
         int lastProgress = 0;
         int progressLinebreakCheck = 0;
@@ -59,14 +55,13 @@ int main(int argc, const char * argv[]) {
 //                    AVAssetExportSessionStatusFailed,
 //                    AVAssetExportSessionStatusCancelled
 //                };
-            AVAssetExportSessionStatus status = exportSession.status;
-            BOOL finished = status == AVAssetExportSessionStatusCancelled || status == AVAssetExportSessionStatusFailed || status == AVAssetExportSessionStatusCompleted;
-            if (finished) {
+            AVAssetExportSessionStatus status = exporter.status;
+            BOOL stopped = status == AVAssetExportSessionStatusCancelled || status == AVAssetExportSessionStatusFailed || status == AVAssetExportSessionStatusCompleted;
+            if (stopped) {
                 printf("\n");
             }
-            
             if (status == AVAssetExportSessionStatusExporting) {
-                float progress = exportSession.progress;
+                float progress = exporter.progress;
                 int intProgress = (int)(progress * 100);
                 if (intProgress != lastProgress) {
                     printf("%d%%,", intProgress);
@@ -84,10 +79,10 @@ int main(int argc, const char * argv[]) {
             else if (status == AVAssetExportSessionStatusCompleted) {
                 printf("export completed:%s\n", outputPath.UTF8String);
             }
-            if (exportSession.error) {
-                printf("error:%s", exportSession.error.description.UTF8String);
+            if (exporter.error) {
+                printf("error:%s", exporter.error.description.UTF8String);
             }
-            if (finished) {
+            if (stopped) {
                 break;
             }
         }

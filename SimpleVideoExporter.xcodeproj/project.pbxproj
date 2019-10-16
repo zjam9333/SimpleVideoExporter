@@ -8,6 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		1C13A0BC23544A7400194A89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0BB23544A7400194A89 /* main.m */; };
+		1C13A0CF2356BCE800194A89 /* ZZVideoExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */; };
+		1C13A0D92356C3B800194A89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0D82356C3B800194A89 /* AppDelegate.m */; };
+		1C13A0DC2356C3B800194A89 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0DB2356C3B800194A89 /* ViewController.m */; };
+		1C13A0DE2356C3BA00194A89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C13A0DD2356C3BA00194A89 /* Assets.xcassets */; };
+		1C13A0E12356C3BA00194A89 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C13A0DF2356C3BA00194A89 /* Main.storyboard */; };
+		1C13A0E42356C3BA00194A89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0E32356C3BA00194A89 /* main.m */; };
+		1C13A0EB2356C64B00194A89 /* ZZDragFileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0EA2356C64B00194A89 /* ZZDragFileView.m */; };
+		1C13A0EC2356EA4B00194A89 /* ZZVideoExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */; };
+		1C13A0EF2356F0A900194A89 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C13A0EE2356F0A900194A89 /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,6 +35,21 @@
 		1C13A0B823544A7400194A89 /* SimpleVideoExporter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SimpleVideoExporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C13A0BB23544A7400194A89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1C13A0C223545AA800194A89 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		1C13A0CD2356BCE800194A89 /* ZZVideoExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZVideoExporter.h; sourceTree = "<group>"; };
+		1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZVideoExporter.m; sourceTree = "<group>"; };
+		1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleVideoExporterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C13A0D72356C3B800194A89 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1C13A0D82356C3B800194A89 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1C13A0DA2356C3B800194A89 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1C13A0DB2356C3B800194A89 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1C13A0DD2356C3BA00194A89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1C13A0E02356C3BA00194A89 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1C13A0E22356C3BA00194A89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1C13A0E32356C3BA00194A89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1C13A0E52356C3BA00194A89 /* SimpleVideoExporterApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleVideoExporterApp.entitlements; sourceTree = "<group>"; };
+		1C13A0E92356C64B00194A89 /* ZZDragFileView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZDragFileView.h; sourceTree = "<group>"; };
+		1C13A0EA2356C64B00194A89 /* ZZDragFileView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZDragFileView.m; sourceTree = "<group>"; };
+		1C13A0EE2356F0A900194A89 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +57,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1C13A0D22356C3B800194A89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C13A0EF2356F0A900194A89 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +76,9 @@
 			children = (
 				1C13A0C223545AA800194A89 /* README.md */,
 				1C13A0BA23544A7400194A89 /* SimpleVideoExporter */,
+				1C13A0D62356C3B800194A89 /* SimpleVideoExporterApp */,
 				1C13A0B923544A7400194A89 /* Products */,
+				1C13A0ED2356F0A900194A89 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -52,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				1C13A0B823544A7400194A89 /* SimpleVideoExporter */,
+				1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,8 +95,36 @@
 			isa = PBXGroup;
 			children = (
 				1C13A0BB23544A7400194A89 /* main.m */,
+				1C13A0CD2356BCE800194A89 /* ZZVideoExporter.h */,
+				1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */,
 			);
 			path = SimpleVideoExporter;
+			sourceTree = "<group>";
+		};
+		1C13A0D62356C3B800194A89 /* SimpleVideoExporterApp */ = {
+			isa = PBXGroup;
+			children = (
+				1C13A0E92356C64B00194A89 /* ZZDragFileView.h */,
+				1C13A0EA2356C64B00194A89 /* ZZDragFileView.m */,
+				1C13A0D72356C3B800194A89 /* AppDelegate.h */,
+				1C13A0D82356C3B800194A89 /* AppDelegate.m */,
+				1C13A0DA2356C3B800194A89 /* ViewController.h */,
+				1C13A0DB2356C3B800194A89 /* ViewController.m */,
+				1C13A0DD2356C3BA00194A89 /* Assets.xcassets */,
+				1C13A0DF2356C3BA00194A89 /* Main.storyboard */,
+				1C13A0E22356C3BA00194A89 /* Info.plist */,
+				1C13A0E32356C3BA00194A89 /* main.m */,
+				1C13A0E52356C3BA00194A89 /* SimpleVideoExporterApp.entitlements */,
+			);
+			path = SimpleVideoExporterApp;
+			sourceTree = "<group>";
+		};
+		1C13A0ED2356F0A900194A89 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1C13A0EE2356F0A900194A89 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -84,6 +147,23 @@
 			productReference = 1C13A0B823544A7400194A89 /* SimpleVideoExporter */;
 			productType = "com.apple.product-type.tool";
 		};
+		1C13A0D42356C3B800194A89 /* SimpleVideoExporterApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1C13A0E62356C3BA00194A89 /* Build configuration list for PBXNativeTarget "SimpleVideoExporterApp" */;
+			buildPhases = (
+				1C13A0D12356C3B800194A89 /* Sources */,
+				1C13A0D22356C3B800194A89 /* Frameworks */,
+				1C13A0D32356C3B800194A89 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimpleVideoExporterApp;
+			productName = SimpleVideoExporterApp;
+			productReference = 1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -96,6 +176,14 @@
 					1C13A0B723544A7400194A89 = {
 						CreatedOnToolsVersion = 10.3;
 					};
+					1C13A0D42356C3B800194A89 = {
+						CreatedOnToolsVersion = 10.3;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
 				};
 			};
 			buildConfigurationList = 1C13A0B323544A7400194A89 /* Build configuration list for PBXProject "SimpleVideoExporter" */;
@@ -104,6 +192,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1C13A0AF23544A7400194A89;
 			productRefGroup = 1C13A0B923544A7400194A89 /* Products */;
@@ -111,20 +200,57 @@
 			projectRoot = "";
 			targets = (
 				1C13A0B723544A7400194A89 /* SimpleVideoExporter */,
+				1C13A0D42356C3B800194A89 /* SimpleVideoExporterApp */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1C13A0D32356C3B800194A89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C13A0DE2356C3BA00194A89 /* Assets.xcassets in Resources */,
+				1C13A0E12356C3BA00194A89 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1C13A0B423544A7400194A89 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C13A0CF2356BCE800194A89 /* ZZVideoExporter.m in Sources */,
 				1C13A0BC23544A7400194A89 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1C13A0D12356C3B800194A89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1C13A0EB2356C64B00194A89 /* ZZDragFileView.m in Sources */,
+				1C13A0EC2356EA4B00194A89 /* ZZVideoExporter.m in Sources */,
+				1C13A0DC2356C3B800194A89 /* ViewController.m in Sources */,
+				1C13A0E42356C3BA00194A89 /* main.m in Sources */,
+				1C13A0D92356C3B800194A89 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1C13A0DF2356C3BA00194A89 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1C13A0E02356C3BA00194A89 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1C13A0BD23544A7400194A89 /* Debug */ = {
@@ -254,6 +380,42 @@
 			};
 			name = Release;
 		};
+		1C13A0E72356C3BA00194A89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SimpleVideoExporterApp/SimpleVideoExporterApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleVideoExporterApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = zjj.studio.SimpleVideoExporterApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1C13A0E82356C3BA00194A89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SimpleVideoExporterApp/SimpleVideoExporterApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = SimpleVideoExporterApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = zjj.studio.SimpleVideoExporterApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -271,6 +433,15 @@
 			buildConfigurations = (
 				1C13A0C023544A7400194A89 /* Debug */,
 				1C13A0C123544A7400194A89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1C13A0E62356C3BA00194A89 /* Build configuration list for PBXNativeTarget "SimpleVideoExporterApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1C13A0E72356C3BA00194A89 /* Debug */,
+				1C13A0E82356C3BA00194A89 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
