@@ -10,7 +10,7 @@
 		1C13A0BC23544A7400194A89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0BB23544A7400194A89 /* main.m */; };
 		1C13A0CF2356BCE800194A89 /* ZZVideoExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */; };
 		1C13A0D92356C3B800194A89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0D82356C3B800194A89 /* AppDelegate.m */; };
-		1C13A0DC2356C3B800194A89 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0DB2356C3B800194A89 /* ViewController.m */; };
+		1C13A0DC2356C3B800194A89 /* ZZExportQueueViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0DB2356C3B800194A89 /* ZZExportQueueViewController.m */; };
 		1C13A0DE2356C3BA00194A89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C13A0DD2356C3BA00194A89 /* Assets.xcassets */; };
 		1C13A0E12356C3BA00194A89 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C13A0DF2356C3BA00194A89 /* Main.storyboard */; };
 		1C13A0E42356C3BA00194A89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0E32356C3BA00194A89 /* main.m */; };
@@ -37,11 +37,11 @@
 		1C13A0C223545AA800194A89 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1C13A0CD2356BCE800194A89 /* ZZVideoExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZVideoExporter.h; sourceTree = "<group>"; };
 		1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZVideoExporter.m; sourceTree = "<group>"; };
-		1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleVideoExporterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C13A0D52356C3B800194A89 /* SimpleVideoExporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleVideoExporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C13A0D72356C3B800194A89 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1C13A0D82356C3B800194A89 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1C13A0DA2356C3B800194A89 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1C13A0DB2356C3B800194A89 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1C13A0DA2356C3B800194A89 /* ZZExportQueueViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZZExportQueueViewController.h; sourceTree = "<group>"; };
+		1C13A0DB2356C3B800194A89 /* ZZExportQueueViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZZExportQueueViewController.m; sourceTree = "<group>"; };
 		1C13A0DD2356C3BA00194A89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1C13A0E02356C3BA00194A89 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1C13A0E22356C3BA00194A89 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				1C13A0B823544A7400194A89 /* SimpleVideoExporter */,
-				1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */,
+				1C13A0D52356C3B800194A89 /* SimpleVideoExporter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,8 +108,8 @@
 				1C13A0EA2356C64B00194A89 /* ZZDragFileView.m */,
 				1C13A0D72356C3B800194A89 /* AppDelegate.h */,
 				1C13A0D82356C3B800194A89 /* AppDelegate.m */,
-				1C13A0DA2356C3B800194A89 /* ViewController.h */,
-				1C13A0DB2356C3B800194A89 /* ViewController.m */,
+				1C13A0DA2356C3B800194A89 /* ZZExportQueueViewController.h */,
+				1C13A0DB2356C3B800194A89 /* ZZExportQueueViewController.m */,
 				1C13A0DD2356C3BA00194A89 /* Assets.xcassets */,
 				1C13A0DF2356C3BA00194A89 /* Main.storyboard */,
 				1C13A0E22356C3BA00194A89 /* Info.plist */,
@@ -161,7 +161,7 @@
 			);
 			name = SimpleVideoExporterApp;
 			productName = SimpleVideoExporterApp;
-			productReference = 1C13A0D52356C3B800194A89 /* SimpleVideoExporterApp.app */;
+			productReference = 1C13A0D52356C3B800194A89 /* SimpleVideoExporter.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -233,7 +233,7 @@
 			files = (
 				1C13A0EB2356C64B00194A89 /* ZZDragFileView.m in Sources */,
 				1C13A0EC2356EA4B00194A89 /* ZZVideoExporter.m in Sources */,
-				1C13A0DC2356C3B800194A89 /* ViewController.m in Sources */,
+				1C13A0DC2356C3B800194A89 /* ZZExportQueueViewController.m in Sources */,
 				1C13A0E42356C3BA00194A89 /* main.m in Sources */,
 				1C13A0D92356C3B800194A89 /* AppDelegate.m in Sources */,
 			);
@@ -393,7 +393,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = zjj.studio.SimpleVideoExporterApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleVideoExporter;
 			};
 			name = Debug;
 		};
@@ -410,7 +410,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = zjj.studio.SimpleVideoExporterApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = SimpleVideoExporter;
 			};
 			name = Release;
 		};

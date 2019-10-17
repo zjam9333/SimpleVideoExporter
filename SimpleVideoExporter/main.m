@@ -40,7 +40,7 @@ int main(int argc, const char * argv[]) {
             }
         }
         
-        ZZVideoExporter *exporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
+        ZZVideoExporter *exporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath usingHEVC:NO];
         [exporter startExportWithCompletionHandler:nil];
         
         int lastProgress = 0;

@@ -12,20 +12,36 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="SimpleVideoExporterApp" id="1Xt-HY-uBw">
+                            <menuItem title="简单压缩视频" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="SimpleVideoExporterApp" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="简单压缩视频" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About SimpleVideoExporterApp" id="5kV-Vb-QxS">
+                                        <menuItem title="关于" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit SimpleVideoExporterApp" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="退出" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
+                            <menuItem title="窗口" id="wJk-cV-73d">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="窗口" id="73z-zK-cWu">
+                                    <items>
+                                        <menuItem title="新建窗口" keyEquivalent="n" id="i1Y-1L-H5R">
+                                            <connections>
+                                                <action selector="newDocument:" target="Ady-hI-5gd" id="gnm-jd-Qcw"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="关闭窗口" keyEquivalent="w" id="lbB-NO-Qoe">
+                                            <connections>
+                                                <action selector="performClose:" target="Ady-hI-5gd" id="8cx-4h-zUo"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -41,13 +57,13 @@
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="0.0"/>
+            <point key="canvasLocation" x="-32" y="-58"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="快速压缩视频" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                    <window key="window" title="window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <rect key="contentRect" x="552" y="369" width="480" height="320"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
@@ -66,21 +82,27 @@
         <!--Delegate-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="ZZExportQueueViewController" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl" customClass="ZZDragFileView">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iUV-B8-nFC">
-                                <rect key="frame" x="30" y="271" width="84" height="17"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="保存到文件夹" id="Iji-oj-iYS">
+                                <rect key="frame" x="30" y="431" width="150" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="bko-vM-VOo"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="快速压缩并保存到文件夹" id="Iji-oj-iYS">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fa0-7S-AKo">
-                                <rect key="frame" x="32" y="231" width="299" height="22"/>
+                                <rect key="frame" x="32" y="391" width="294" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="38i-rH-gn6"/>
+                                </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="选择文件夹" drawsBackground="YES" id="G7g-Vj-jry">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -88,7 +110,10 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xjj-Rk-I1h">
-                                <rect key="frame" x="347" y="225" width="107" height="32"/>
+                                <rect key="frame" x="342" y="385" width="112" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="vkt-GI-jEx"/>
+                                </constraints>
                                 <buttonCell key="cell" type="push" title="选择文件夹" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ifI-0Y-1mw">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -98,12 +123,15 @@
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="dOt-ZV-yVx">
-                                <rect key="frame" x="32" y="196" width="416" height="20"/>
+                                <rect key="frame" x="32" y="356" width="279" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="NU0-Uh-oDK"/>
+                                </constraints>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="100" verticalHuggingPriority="750" horizontalCompressionResistancePriority="100" translatesAutoresizingMaskIntoConstraints="NO" id="QTC-NY-o0g">
-                                <rect key="frame" x="30" y="170" width="364" height="17"/>
+                                <rect key="frame" x="30" y="330" width="243" height="17"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="360" id="DbB-q6-uFy"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="360" id="DbB-q6-uFy"/>
                                 </constraints>
                                 <textFieldCell key="cell" title="将一个或多个mov或mp4文件拖入此窗口" id="rTG-bo-nMe">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -111,34 +139,82 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ywg-CS-s2C">
+                                <rect key="frame" x="32" y="32" width="416" height="278"/>
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tjo-ij-2HG">
+                                    <rect key="frame" x="0.0" y="0.0" width="401" height="278"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="btA-ZE-Nuu">
+                                            <rect key="frame" x="0.0" y="0.0" width="401" height="278"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="401" height="278"/>
+                                            <size key="maxSize" width="401" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Wr2-Ii-qa5">
+                                    <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="bPm-yw-QLB">
+                                    <rect key="frame" x="401" y="0.0" width="15" height="278"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="muQ-xw-lkf">
+                                <rect key="frame" x="326" y="354" width="124" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="eXd-bq-KEn"/>
+                                </constraints>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="au1-wd-hwf">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="H.264" width="59" selected="YES"/>
+                                        <segment label="H.265" width="58" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="dOt-ZV-yVx" secondAttribute="trailing" constant="32" id="4sw-tP-YRd"/>
+                            <constraint firstItem="ywg-CS-s2C" firstAttribute="top" secondItem="QTC-NY-o0g" secondAttribute="bottom" constant="20" id="0OJ-pg-7lp"/>
                             <constraint firstItem="QTC-NY-o0g" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="32" id="7NM-p2-4mv"/>
                             <constraint firstItem="fa0-7S-AKo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="32" id="Cv8-1r-XoS"/>
+                            <constraint firstAttribute="trailing" secondItem="ywg-CS-s2C" secondAttribute="trailing" constant="32" id="Dc5-ho-b9I"/>
+                            <constraint firstAttribute="trailing" secondItem="muQ-xw-lkf" secondAttribute="trailing" constant="32" id="FSy-zq-ZKG"/>
                             <constraint firstItem="fa0-7S-AKo" firstAttribute="top" secondItem="iUV-B8-nFC" secondAttribute="bottom" constant="18" id="GVD-hb-4kc"/>
                             <constraint firstItem="QTC-NY-o0g" firstAttribute="top" secondItem="dOt-ZV-yVx" secondAttribute="bottom" constant="10" id="IQD-OB-jsJ"/>
+                            <constraint firstAttribute="bottom" secondItem="ywg-CS-s2C" secondAttribute="bottom" constant="32" id="N6F-Vk-paV"/>
+                            <constraint firstItem="muQ-xw-lkf" firstAttribute="centerY" secondItem="dOt-ZV-yVx" secondAttribute="centerY" id="Se5-0v-FkP"/>
                             <constraint firstItem="xjj-Rk-I1h" firstAttribute="leading" secondItem="fa0-7S-AKo" secondAttribute="trailing" constant="22" id="a6e-8T-v21"/>
                             <constraint firstAttribute="trailing" secondItem="xjj-Rk-I1h" secondAttribute="trailing" constant="32" id="aw2-SS-d7u"/>
+                            <constraint firstItem="QTC-NY-o0g" firstAttribute="height" relation="lessThanOrEqual" secondItem="btA-ZE-Nuu" secondAttribute="height" id="cik-OQ-W7j"/>
                             <constraint firstItem="dOt-ZV-yVx" firstAttribute="top" secondItem="fa0-7S-AKo" secondAttribute="bottom" constant="16" id="gF6-h4-zko"/>
                             <constraint firstItem="dOt-ZV-yVx" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="32" id="tCY-gT-490"/>
                             <constraint firstItem="xjj-Rk-I1h" firstAttribute="centerY" secondItem="fa0-7S-AKo" secondAttribute="centerY" id="tmM-39-y1M"/>
+                            <constraint firstItem="ywg-CS-s2C" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="32" id="vAg-vX-Dyu"/>
                             <constraint firstItem="iUV-B8-nFC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="32" id="wB8-fU-mZm"/>
                             <constraint firstItem="iUV-B8-nFC" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="32" id="xU0-gf-ZOQ"/>
+                            <constraint firstItem="muQ-xw-lkf" firstAttribute="leading" secondItem="dOt-ZV-yVx" secondAttribute="trailing" constant="17" id="zhj-6b-5U5"/>
                         </constraints>
                         <connections>
                             <outlet property="delegate" destination="XfG-lQ-9wD" id="P6a-6f-vT4"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="encodeSegment" destination="muQ-xw-lkf" id="1aY-nE-ZWh"/>
                         <outlet property="outputPathTextField" destination="fa0-7S-AKo" id="cHj-W9-xYs"/>
                         <outlet property="progressBar" destination="dOt-ZV-yVx" id="vru-Gx-iN6"/>
+                        <outlet property="queueTextView" destination="btA-ZE-Nuu" id="Klw-2s-2VD"/>
                         <outlet property="tipsTextField" destination="QTC-NY-o0g" id="EjT-bJ-wFm"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="655"/>
+            <point key="canvasLocation" x="75" y="794"/>
         </scene>
     </scenes>
 </document>

@@ -23,4 +23,9 @@
     // Insert code here to tear down your application
 }
 
+- (void)newDocument:(id)sender {
+    NSWindowController *EditorWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialController];
+    [EditorWC showWindow:nil];
+}
+
 @end

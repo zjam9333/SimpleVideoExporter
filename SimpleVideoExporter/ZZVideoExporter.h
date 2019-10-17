@@ -18,7 +18,7 @@
 @property (nonatomic, readonly) float progress;
 @property (nonatomic, readonly) NSError *error;
 
-- (instancetype)initWithInputPath:(NSString *)inputPath outputPath:(NSString *)outputPath;
+- (instancetype)initWithInputPath:(NSString *)inputPath outputPath:(NSString *)outputPath usingHEVC:(BOOL)usingHEVC;
 - (void)startExportWithCompletionHandler:(void (^)(void))handler;
 
 @end

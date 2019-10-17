@@ -6,17 +6,20 @@
 //  Copyright © 2019 zjj. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "ZZExportQueueViewController.h"
 #import "ZZDragFileView.h"
 #import "ZZVideoExporter.h"
 
 #define WeakDefine(strongA, weakA) __weak typeof(strongA) weakA = strongA;
+#define tipsString @"将一个或多个mov或mp4文件拖入此窗口"
 
-@interface ViewController()<ZZDragFileViewDelegate>
+@interface ZZExportQueueViewController()<ZZDragFileViewDelegate>
 
 @property (weak) IBOutlet NSTextField *outputPathTextField;
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 @property (weak) IBOutlet NSTextField *tipsTextField;
+@property (unsafe_unretained) IBOutlet NSTextView *queueTextView;
+@property (weak) IBOutlet NSSegmentedControl *encodeSegment;
 
 @property ZZVideoExporter *currentVideoExporter;
 @property NSTimer *timer;
@@ -24,11 +27,11 @@
 
 @end
 
-@implementation ViewController
+@implementation ZZExportQueueViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.tipsTextField.stringValue = tipsString;
     // Do any additional setup after loading the view.
 }
 
@@ -49,9 +52,26 @@
 }
 
 - (void)dragFileViewDidDragURLs:(NSArray *)URLs {
-    NSLog(@"%@", URLs);
-    self.queueURLs = [URLs mutableCopy];
-    [self exportVideoForInputURL:URLs.firstObject];
+    NSString *outputDir = self.outputPathTextField.stringValue ;
+    if (outputDir.length == 0) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setInformativeText:@"请选择目标文件夹"];
+        [alert setAlertStyle:NSAlertStyleWarning];
+        [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+            
+        }];
+        return;
+    }
+//    NSLog(@"%@", URLs);
+    if (self.queueURLs.count == 0) {
+        self.queueURLs = [URLs mutableCopy];
+        [self exportVideoForInputURL:URLs.firstObject];
+    } else {
+        [self.queueURLs addObjectsFromArray:URLs];
+    }
+    
+    [self showCurrentQueue];
 }
 
 - (NSString *)pathStringByRemovingFilePrefix:(NSString *)pathString {
@@ -65,6 +85,7 @@
     if (!inputURL) {
         return;
     }
+    
     WeakDefine(self, weakself);
     NSString *inputPath = [inputURL absoluteString];
     inputPath = [self pathStringByRemovingFilePrefix:inputPath];
@@ -82,7 +103,7 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
         NSMutableArray *nameCompos = [[inputFileName componentsSeparatedByString:@"."] mutableCopy];
         if (nameCompos.count >= 2) {
-            NSString *insertCompo = [NSString stringWithFormat:@"%ld.%ld", (long)[NSDate timeIntervalSinceReferenceDate], (long)arc4random() % 1000];
+            NSString *insertCompo = [NSString stringWithFormat:@"%ld.%ld", (long)[NSDate timeIntervalSinceReferenceDate] % 1000 , (long)arc4random() % 1000];
             [nameCompos insertObject:insertCompo atIndex:nameCompos.count - 1];
         }
         NSString *name = [nameCompos componentsJoinedByString:@"."];
@@ -93,7 +114,7 @@
         weakself.progressBar.doubleValue = weakself.currentVideoExporter.progress;
     }];
     
-    self.currentVideoExporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath];
+    self.currentVideoExporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath usingHEVC:self.encodeSegment.selectedSegment == 1];
     [self.currentVideoExporter startExportWithCompletionHandler:^{
         [weakself.timer invalidate];
         weakself.progressBar.doubleValue = 0;
@@ -105,16 +126,28 @@
             weakself.progressBar.doubleValue = 1;
             weakself.tipsTextField.stringValue = [NSString stringWithFormat:@"已导出：%@", outputPath];
         }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [weakself completeWithURL:inputURL];
-        });
+//        });
     }];
 }
 
 - (void)completeWithURL:(NSURL *)URL {
     [self.queueURLs removeObject:URL];
+    [self showCurrentQueue];
     if (self.queueURLs.count > 0) {
+        // do next url
         [self exportVideoForInputURL:self.queueURLs.firstObject];
+    }
+}
+
+- (void)showCurrentQueue {
+    if (self.queueURLs.count > 0) {
+        self.queueTextView.string = [NSString stringWithFormat:@"当前队列：%@", self.queueURLs.description];
+    } else {
+        self.queueTextView.string = @"";
+        self.progressBar.doubleValue = 0;
+        self.tipsTextField.stringValue = @"已完成全部队列，" tipsString;
     }
 }
 
