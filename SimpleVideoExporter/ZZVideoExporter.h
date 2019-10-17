@@ -20,5 +20,6 @@
 
 - (instancetype)initWithInputPath:(NSString *)inputPath outputPath:(NSString *)outputPath usingHEVC:(BOOL)usingHEVC;
 - (void)startExportWithCompletionHandler:(void (^)(void))handler;
+- (void)cancel;
 
 @end

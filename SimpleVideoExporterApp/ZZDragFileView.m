@@ -10,9 +10,13 @@
 
 @implementation ZZDragFileView
 
+- (void)dealloc {
+    [self unregisterDraggedTypes];
+    NSLog(@"delloc: %@", self);
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
     [self registerForDraggedTypes:[NSArray arrayWithObjects:NSPasteboardTypeFileURL, nil]];
 }
 

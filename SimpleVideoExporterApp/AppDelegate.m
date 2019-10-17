@@ -16,6 +16,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    [self newDocument:nil];
 }
 
 
@@ -24,7 +25,7 @@
 }
 
 - (void)newDocument:(id)sender {
-    NSWindowController *EditorWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialController];
+    NSWindowController *EditorWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MyWindowController"];
     [EditorWC showWindow:nil];
 }
 

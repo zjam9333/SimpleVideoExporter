@@ -43,7 +43,7 @@ int main(int argc, const char * argv[]) {
         ZZVideoExporter *exporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath usingHEVC:NO];
         [exporter startExportWithCompletionHandler:nil];
         
-        int lastProgress = 0;
+        float lastProgress = 0;
         int progressLinebreakCheck = 0;
         printf("starting...\n");
         while (1) {
@@ -62,9 +62,9 @@ int main(int argc, const char * argv[]) {
             }
             if (status == AVAssetExportSessionStatusExporting) {
                 float progress = exporter.progress;
-                int intProgress = (int)(progress * 100);
+                float intProgress = ((float)(int)(progress * 10000)) / 100;
                 if (intProgress != lastProgress) {
-                    printf("%d%%,", intProgress);
+                    printf("%.2f%%,", intProgress);
                     fflush(stdout);
 //                    usleep(100);
                     lastProgress = intProgress;

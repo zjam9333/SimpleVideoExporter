@@ -13,7 +13,7 @@
 #define WeakDefine(strongA, weakA) __weak typeof(strongA) weakA = strongA;
 #define tipsString @"将一个或多个mov或mp4文件拖入此窗口"
 
-@interface ZZExportQueueViewController()<ZZDragFileViewDelegate>
+@interface ZZExportQueueViewController()<ZZDragFileViewDelegate, NSWindowDelegate>
 
 @property (weak) IBOutlet NSTextField *outputPathTextField;
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
@@ -21,18 +21,46 @@
 @property (unsafe_unretained) IBOutlet NSTextView *queueTextView;
 @property (weak) IBOutlet NSSegmentedControl *encodeSegment;
 
-@property ZZVideoExporter *currentVideoExporter;
-@property NSTimer *timer;
-@property NSMutableArray *queueURLs;
+@property (strong, atomic) ZZVideoExporter *currentVideoExporter;
+@property (strong, atomic) NSTimer *timer;
+@property (strong, atomic) NSMutableArray<NSString *> *queuePathes;
 
 @end
 
 @implementation ZZExportQueueViewController
 
+- (void)dealloc {
+    [self.currentVideoExporter cancel];
+    NSLog(@"delloc: %@", self);
+}
+
+- (BOOL)windowShouldClose:(NSWindow *)sender {
+    if (self.queuePathes.count > 0) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"返回"];
+        [alert addButtonWithTitle:@"关闭"];
+        [alert setInformativeText:@"队列正在进行中，关闭窗口吗"];
+        [alert setAlertStyle:NSAlertStyleWarning];
+        WeakDefine(self, weakself);
+        [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+            if (returnCode == NSAlertSecondButtonReturn) {
+                [weakself.view.window close];
+            }
+        }];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tipsTextField.stringValue = tipsString;
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear {
+    [super viewDidAppear];
+    self.view.window.delegate =self;
 }
 
 - (IBAction)selectOutputPath:(id)sender {
@@ -45,53 +73,61 @@
     [panel beginWithCompletionHandler:^(NSModalResponse result) {
         if (result == NSModalResponseOK) {
             NSURL *first = panel.URLs.firstObject;
-            NSString *path = first.absoluteString;
-            weakself.outputPathTextField.stringValue = [self pathStringByRemovingFilePrefix:path];;
+            weakself.outputPathTextField.stringValue = [self humanReadablePathString:first.absoluteString];
+            if (weakself.queuePathes.count > 0) {
+                [weakself tryStartQueue];
+            }
         }
     }];
 }
 
 - (void)dragFileViewDidDragURLs:(NSArray *)URLs {
-    NSString *outputDir = self.outputPathTextField.stringValue ;
-    if (outputDir.length == 0) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"OK"];
-        [alert setInformativeText:@"请选择目标文件夹"];
-        [alert setAlertStyle:NSAlertStyleWarning];
-        [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
-            
-        }];
-        return;
+    
+    NSMutableArray *decodePaths = [NSMutableArray array];
+    for (NSURL *ur in URLs) {
+        NSString *absStr = ur.absoluteString;
+        absStr = [self humanReadablePathString:absStr];
+        [decodePaths addObject:absStr];
     }
 //    NSLog(@"%@", URLs);
-    if (self.queueURLs.count == 0) {
-        self.queueURLs = [URLs mutableCopy];
-        [self exportVideoForInputURL:URLs.firstObject];
+    if (self.queuePathes.count == 0) {
+        self.queuePathes = decodePaths;
+        [self tryStartQueue];
     } else {
-        [self.queueURLs addObjectsFromArray:URLs];
+        [self.queuePathes addObjectsFromArray:decodePaths];
     }
     
     [self showCurrentQueue];
 }
 
-- (NSString *)pathStringByRemovingFilePrefix:(NSString *)pathString {
+- (void)tryStartQueue {
+    NSString *outputDir = self.outputPathTextField.stringValue;
+    if (outputDir.length == 0) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"OK"];
+        [alert setInformativeText:@"请选择目标文件夹"];
+        [alert setAlertStyle:NSAlertStyleWarning];
+        WeakDefine(self, weakself);
+        [alert beginSheetModalForWindow:self.view.window completionHandler:^(NSModalResponse returnCode) {
+            [weakself selectOutputPath:nil];
+        }];
+        return;
+    }
+    [self exportVideoForInputPath:self.queuePathes.firstObject];
+}
+
+- (NSString *)humanReadablePathString:(NSString *)pathString {
     pathString = [pathString stringByReplacingOccurrencesOfString:@"file:/" withString:@"/"];
-    pathString = [pathString stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
-    pathString = [pathString stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    while ([pathString containsString:@"//"]) {
+        pathString = [pathString stringByReplacingOccurrencesOfString:@"//" withString:@"/"];
+    }
+    pathString = [pathString stringByRemovingPercentEncoding];
     return pathString;
 }
 
-- (void)exportVideoForInputURL:(NSURL *)inputURL {
-    if (!inputURL) {
-        return;
-    }
-    
+- (void)exportVideoForInputPath:(NSString *)inputPath {
     WeakDefine(self, weakself);
-    NSString *inputPath = [inputURL absoluteString];
-    inputPath = [self pathStringByRemovingFilePrefix:inputPath];
-    self.tipsTextField.stringValue = [NSString stringWithFormat:@"正在导出：%@", inputPath];
-    
-    NSString *inputFileName = [[inputPath componentsSeparatedByString:@"/"] lastObject];
+    // check output dir
     NSString *outputDir = self.outputPathTextField.stringValue ;
     if (outputDir.length == 0) {
         return;
@@ -99,6 +135,8 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:outputDir]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:outputDir withIntermediateDirectories:NO attributes:nil error:nil];
     }
+    // check input output path
+    NSString *inputFileName = [[inputPath componentsSeparatedByString:@"/"] lastObject];
     NSString *outputPath = [outputDir stringByAppendingPathComponent:inputFileName];
     if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
         NSMutableArray *nameCompos = [[inputFileName componentsSeparatedByString:@"."] mutableCopy];
@@ -110,40 +148,55 @@
         outputPath = [outputDir stringByAppendingPathComponent:name];
     }
 
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.02 repeats:YES block:^(NSTimer * _Nonnull timer) {
-        weakself.progressBar.doubleValue = weakself.currentVideoExporter.progress;
+    // check and show progress
+    double timerInterval = 0.1;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval repeats:YES block:^(NSTimer * _Nonnull timer) {
+        double currentProgress = weakself.currentVideoExporter.progress;
+        // bar
+        weakself.progressBar.doubleValue = currentProgress;
+        weakself.tipsTextField.stringValue = [NSString stringWithFormat:@"正在导出：%@\n进度：%.2f%%", inputPath, currentProgress * 100];
     }];
     
+    // init a exporter
     self.currentVideoExporter = [[ZZVideoExporter alloc] initWithInputPath:inputPath outputPath:outputPath usingHEVC:self.encodeSegment.selectedSegment == 1];
+    
     [self.currentVideoExporter startExportWithCompletionHandler:^{
         [weakself.timer invalidate];
         weakself.progressBar.doubleValue = 0;
         NSError *err = weakself.currentVideoExporter.error;
         if (err) {
             weakself.tipsTextField.stringValue = err.description;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakself completeWithInputPath:inputPath];
+            });
+            return;
         }
         if (weakself.currentVideoExporter.status == AVAssetExportSessionStatusCompleted) {
             weakself.progressBar.doubleValue = 1;
             weakself.tipsTextField.stringValue = [NSString stringWithFormat:@"已导出：%@", outputPath];
         }
 //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakself completeWithURL:inputURL];
+        [weakself completeWithInputPath:inputPath];
 //        });
     }];
 }
 
-- (void)completeWithURL:(NSURL *)URL {
-    [self.queueURLs removeObject:URL];
+- (void)completeWithInputPath:(NSString *)inputPath {
+    [self.queuePathes removeObject:inputPath];
     [self showCurrentQueue];
-    if (self.queueURLs.count > 0) {
+    if (self.queuePathes.count > 0) {
         // do next url
-        [self exportVideoForInputURL:self.queueURLs.firstObject];
+        [self exportVideoForInputPath:self.queuePathes.firstObject];
     }
 }
 
 - (void)showCurrentQueue {
-    if (self.queueURLs.count > 0) {
-        self.queueTextView.string = [NSString stringWithFormat:@"当前队列：%@", self.queueURLs.description];
+    if (self.queuePathes.count > 0) {
+        NSString *queueString = @"";
+        for (NSString *path in self.queuePathes) {
+            queueString = [NSString stringWithFormat:@"%@\n%@", queueString, path];
+        }
+        self.queueTextView.string = [NSString stringWithFormat:@"当前队列：%@", queueString];
     } else {
         self.queueTextView.string = @"";
         self.progressBar.doubleValue = 0;

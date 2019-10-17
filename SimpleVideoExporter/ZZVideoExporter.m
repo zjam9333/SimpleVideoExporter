@@ -38,6 +38,10 @@
     }];
 }
 
+- (void)cancel {
+    [self.exportSession cancelExport];
+}
+
 #pragma mark getter
 
 - (AVAssetExportSessionStatus)status {
