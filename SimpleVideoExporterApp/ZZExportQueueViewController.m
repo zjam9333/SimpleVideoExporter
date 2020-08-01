@@ -138,6 +138,7 @@
     // check input output path
     NSString *inputFileName = [[inputPath componentsSeparatedByString:@"/"] lastObject];
     NSString *outputPath = [outputDir stringByAppendingPathComponent:inputFileName];
+    outputPath = [outputPath stringByAppendingString:@".mp4"];
     if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
         NSMutableArray *nameCompos = [[inputFileName componentsSeparatedByString:@"."] mutableCopy];
         if (nameCompos.count >= 2) {
