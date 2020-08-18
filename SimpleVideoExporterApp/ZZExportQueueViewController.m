@@ -29,6 +29,11 @@
 
 @implementation ZZExportQueueViewController
 
++ (void)showInNewWindow {
+    NSWindowController *EditorWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MyWindowController"];
+    [EditorWC showWindow:nil];
+}
+
 - (void)dealloc {
     [self.currentVideoExporter cancel];
     NSLog(@"delloc: %@", self);
@@ -49,6 +54,9 @@
         }];
         return NO;
     }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [ZZExportQueueViewController showInNewWindow];
+    });
     return YES;
 }
 
@@ -137,10 +145,11 @@
     }
     // check input output path
     NSString *inputFileName = [[inputPath componentsSeparatedByString:@"/"] lastObject];
-    NSString *outputPath = [outputDir stringByAppendingPathComponent:inputFileName];
-    outputPath = [outputPath stringByAppendingString:@".mp4"];
+    NSString *outputFileName = [inputFileName stringByAppendingString:@".mp4"];
+    NSString *outputPath = [outputDir stringByAppendingPathComponent:outputFileName];
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
-        NSMutableArray *nameCompos = [[inputFileName componentsSeparatedByString:@"."] mutableCopy];
+        NSMutableArray *nameCompos = [[outputFileName componentsSeparatedByString:@"."] mutableCopy];
         if (nameCompos.count >= 2) {
             NSString *insertCompo = [NSString stringWithFormat:@"%ld.%ld", (long)[NSDate timeIntervalSinceReferenceDate] % 1000 , (long)arc4random() % 1000];
             [nameCompos insertObject:insertCompo atIndex:nameCompos.count - 1];

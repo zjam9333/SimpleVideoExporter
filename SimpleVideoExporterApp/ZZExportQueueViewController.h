@@ -10,6 +10,7 @@
 
 @interface ZZExportQueueViewController : NSViewController
 
++ (void)showInNewWindow;
 
 @end
 

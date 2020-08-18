@@ -27,7 +27,7 @@
     //    NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:inputAsset];
     self.exportSession = [[AVAssetExportSession alloc] initWithAsset:inputAsset presetName:usingHEVC ? AVAssetExportPresetHEVCHighestQuality : AVAssetExportPresetHighestQuality];
     self.exportSession.outputURL = [NSURL fileURLWithPath:self.outputPath];
-    self.exportSession.outputFileType = AVFileTypeQuickTimeMovie;
+    self.exportSession.outputFileType = AVFileTypeMPEG4;
     
     return self;
 }

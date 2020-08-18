@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ZZExportQueueViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,8 +26,7 @@
 }
 
 - (void)newDocument:(id)sender {
-    NSWindowController *EditorWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"MyWindowController"];
-    [EditorWC showWindow:nil];
+    [ZZExportQueueViewController showInNewWindow];
 }
 
 @end
