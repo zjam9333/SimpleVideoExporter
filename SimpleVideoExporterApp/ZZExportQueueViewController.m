@@ -18,7 +18,7 @@
 @property (weak) IBOutlet NSTextField *outputPathTextField;
 @property (weak) IBOutlet NSProgressIndicator *progressBar;
 @property (weak) IBOutlet NSTextField *tipsTextField;
-@property (unsafe_unretained) IBOutlet NSTextView *queueTextView;
+@property (weak) IBOutlet NSTextView *queueTextView;
 @property (weak) IBOutlet NSSegmentedControl *encodeSegment;
 
 @property (strong, atomic) ZZVideoExporter *currentVideoExporter;
@@ -55,7 +55,8 @@
         return NO;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [ZZExportQueueViewController showInNewWindow];
+        // 不再自动创建新窗口
+//        [ZZExportQueueViewController showInNewWindow];
     });
     return YES;
 }
@@ -68,7 +69,7 @@
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    self.view.window.delegate =self;
+    self.view.window.delegate = self;
 }
 
 - (IBAction)selectOutputPath:(id)sender {
