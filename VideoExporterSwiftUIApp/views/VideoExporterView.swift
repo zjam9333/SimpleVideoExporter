@@ -14,8 +14,9 @@ struct VideoExporterView: View {
     @State var openingFile: Bool = false
     @State var pathAlert: Bool = false
     @State var usingH265: Bool = false
-    @State var queueObjects: [VideoQueueObject] = []
-    @State var error: Error?
+    
+    @State var queueObjects = [VideoQueueTask]()
+    @State var historyObjects = [VideoQueueTask]()
     
     var body: some View {
         GeometryReader { geo in
@@ -23,20 +24,31 @@ struct VideoExporterView: View {
                 HStack {
                     Text("Export Video Queue").font(.title)
                     Spacer()
-                }.padding(.top, 20)
+                }
+                .padding(.top, 20)
                 HStack(spacing: 10) {
                     TextField("Output Path", text: $outputPath)
                         .disabled(true)
                         .disableAutocorrection(true)
                         .textFieldStyle(DefaultTextFieldStyle())
-                    Button("Choose Output Path") {
+                    Button {
                         openingFile.toggle()
+                    } label: {
+                        Image(systemName: "folder.fill")
+                        Text("Choose Output Path")
                     }
                 }
-                HStack(spacing: 0) {
+                HStack(spacing: 10) {
 //                    ProgressView(value: progress, total: 1)
                     Text("\(queueObjects.count) \(queueObjects.count == 1 ? "File" : "Files") in Queue")
-                    Spacer(minLength: 10)
+                        .lineLimit(2)
+                    Spacer()
+                    Button {
+                        historyObjects.removeAll()
+                    } label: {
+                        Image(systemName: "trash.fill")
+                        Text("Clean History")
+                    }
                     Picker(selection: $usingH265, label: EmptyView(), content: {
                         Text("H264").tag(false)
                         Text("H265").tag(true)
@@ -44,23 +56,29 @@ struct VideoExporterView: View {
                     .pickerStyle(SegmentedPickerStyle())
                     .frame(width: 100)
                 }
-                if let error = error {
-                    HStack {
-                        Text(error.localizedDescription).foregroundColor(.red)
-                        Spacer()
-                    }
-                }
+//                if let error = error {
+//                    HStack {
+//                        Text(error.localizedDescription).foregroundColor(.red)
+//                        Spacer()
+//                    }
+//                }
                 GeometryReader { geo in
                     ZStack {
                         ScrollView(.vertical, showsIndicators: true, content: {
                             VStack(spacing: 0) {
+                                ForEach(historyObjects, id: \.self) { obj in
+                                    VideoQueueCell(task: obj)
+                                }
+//                                if !historyObjects.isEmpty {
+//                                    Color(.black).frame(height: 0.5)
+//                                }
                                 ForEach(queueObjects, id: \.self) { obj in
-                                    VideoQueueCell(queueObj: obj)
+                                    VideoQueueCell(task: obj)
                                 }
                             }
                         })
                         .frame(width: geo.size.width, height: geo.size.height)
-                        if queueObjects.count == 0 {
+                        if queueObjects.isEmpty && historyObjects.isEmpty {
                             Text("Drag Video Files Here")
                         }
                     }
@@ -88,7 +106,7 @@ struct VideoExporterView: View {
                     guard let data = coding as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) else {
                         return
                     }
-                    queueObjects.append(VideoQueueObject(inputUrl: url))
+                    queueObjects.append(VideoQueueTask(inputUrl: url))
                     self.shouldStartQueue()
                 }
             }
@@ -102,18 +120,19 @@ struct VideoExporterView: View {
             return
         }
         if let first = self.queueObjects.first {
-            if first.didStart {
+            guard case .waiting = first.state else {
                 return
             }
             first.start(outputPath: outputPath, hevc: usingH265, progress: nil) { res in
                 var errored = false
-                if case .failure(let err) = res {
-                    self.error = err
+                if case .failure = res {
                     errored = true
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + (errored ? 2 : 0)) {
-                    self.error = nil
-                    self.queueObjects.removeFirst()
+                self.historyObjects.append(first)
+                self.queueObjects.removeAll { tas in
+                    tas == first
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + (errored ? 0.5 : 0)) {
                     self.shouldStartQueue()
                 }
             }
@@ -122,18 +141,51 @@ struct VideoExporterView: View {
 }
 
 struct VideoQueueCell: View {
-    @ObservedObject var queueObj: VideoQueueObject
+    @ObservedObject var task: VideoQueueTask
     var body: some View {
         ZStack(alignment: .bottom) {
-            HStack(spacing: 0) {
-                Text(queueObj.fileName).lineLimit(2)
+            HStack(spacing: 10) {
+                Text(task.fileName)
+                    .lineLimit(2)
                 Spacer(minLength: 10)
-                ProgressView(value: queueObj.progress, total: 1).frame(width: 100)
+                
+                switch task.state {
+                case .processing:
+                    Text(String(format: "%.2f%%", task.progress * 100))
+                        .frame(width: 64, alignment: .trailing)
+                    ProgressView(value: task.progress, total: 1)
+                        .frame(width: 100)
+                    self.cancelButton
+                case .waiting:
+                    Image(systemName: "clock")
+                        .foregroundColor(.gray)
+                case .failed(let err):
+                    Text(err?.localizedDescription ?? "")
+                        .foregroundColor(.red)
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.red)
+                case .finished:
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                case .cancelled:
+                    Image(systemName: "xmark")
+                        .foregroundColor(.yellow)
+                }
             }
             .padding(.horizontal, 10)
             .padding(.vertical, 4)
             Color(NSColor(white: 0.9, alpha: 1)).frame(height: 0.5)
         }
+    }
+    
+    var cancelButton: some View {
+        Button {
+            task.cancel()
+        } label: {
+            Image(systemName: "stop.circle.fill")
+                .foregroundColor(.red)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

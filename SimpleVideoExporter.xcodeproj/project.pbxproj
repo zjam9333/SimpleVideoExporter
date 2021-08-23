@@ -23,8 +23,7 @@
 		1C9A413626CE651C00EA2AF3 /* VideoExporterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A413526CE651C00EA2AF3 /* VideoExporterView.swift */; };
 		1C9A413826CF83D900EA2AF3 /* ZZVideoExporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C13A0CE2356BCE800194A89 /* ZZVideoExporter.m */; };
 		1C9A413C26CF8E2800EA2AF3 /* String+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A413B26CF8E2800EA2AF3 /* String+ext.swift */; };
-		1C9A413F26CFA56200EA2AF3 /* VideoQueueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A413E26CFA56200EA2AF3 /* VideoQueueObject.swift */; };
-		1C9A414126CFB2DB00EA2AF3 /* VideoExportSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A414026CFB2DB00EA2AF3 /* VideoExportSession.swift */; };
+		1C9A413F26CFA56200EA2AF3 /* VideoQueueTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A413E26CFA56200EA2AF3 /* VideoQueueTask.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -66,8 +65,7 @@
 		1C9A413126CE63D000EA2AF3 /* VideoExporterSwiftUIApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VideoExporterSwiftUIApp.entitlements; sourceTree = "<group>"; };
 		1C9A413526CE651C00EA2AF3 /* VideoExporterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExporterView.swift; sourceTree = "<group>"; };
 		1C9A413B26CF8E2800EA2AF3 /* String+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+ext.swift"; sourceTree = "<group>"; };
-		1C9A413E26CFA56200EA2AF3 /* VideoQueueObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQueueObject.swift; sourceTree = "<group>"; };
-		1C9A414026CFB2DB00EA2AF3 /* VideoExportSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoExportSession.swift; sourceTree = "<group>"; };
+		1C9A413E26CFA56200EA2AF3 /* VideoQueueTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoQueueTask.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,8 +194,7 @@
 		1C9A413D26CFA55000EA2AF3 /* obj */ = {
 			isa = PBXGroup;
 			children = (
-				1C9A413E26CFA56200EA2AF3 /* VideoQueueObject.swift */,
-				1C9A414026CFB2DB00EA2AF3 /* VideoExportSession.swift */,
+				1C9A413E26CFA56200EA2AF3 /* VideoQueueTask.swift */,
 			);
 			path = obj;
 			sourceTree = "<group>";
@@ -350,10 +347,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C9A413826CF83D900EA2AF3 /* ZZVideoExporter.m in Sources */,
-				1C9A413F26CFA56200EA2AF3 /* VideoQueueObject.swift in Sources */,
+				1C9A413F26CFA56200EA2AF3 /* VideoQueueTask.swift in Sources */,
 				1C9A412826CE63CE00EA2AF3 /* VideoExporterSwiftUIAppApp.swift in Sources */,
 				1C9A413C26CF8E2800EA2AF3 /* String+ext.swift in Sources */,
-				1C9A414126CFB2DB00EA2AF3 /* VideoExportSession.swift in Sources */,
 				1C9A413626CE651C00EA2AF3 /* VideoExporterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
