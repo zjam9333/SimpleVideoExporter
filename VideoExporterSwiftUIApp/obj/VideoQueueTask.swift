@@ -50,7 +50,7 @@ class VideoQueueTask: ObservableObject {
     private var videoExporter: Session?
     private var timer: Timer?
     
-    func start(outputPath: String, hevc: Bool = false, progress: ((Double) -> Void)?, completion: @escaping ((Result<String, Error>) -> Void)) {
+    func start(outputPath: String, coding: Coding = .h264, quality: Quality = .high, progress: ((Double) -> Void)?, completion: @escaping ((Result<String, Error>) -> Void)) {
         guard self.videoExporter == nil else {
             return
         }
@@ -87,7 +87,7 @@ class VideoQueueTask: ObservableObject {
             }
         }
         
-        self.videoExporter = Session(input: self.inputUrl, output: URL(fileURLWithPath: outputFile), hevc: hevc)
+        self.videoExporter = Session(input: self.inputUrl, output: URL(fileURLWithPath: outputFile), coding: coding, quality: quality)
         self.videoExporter?.start { [weak self] in
             self?.timer?.invalidate()
             if let err = self?.videoExporter?.error {
@@ -110,15 +110,40 @@ class VideoQueueTask: ObservableObject {
     }
 }
 
+extension VideoQueueTask {
+    enum Quality: String, CaseIterable {
+        case high
+//        case medium
+//        case low
+    }
+    
+    enum Coding: String, CaseIterable {
+        case h264
+        case h265
+    }
+}
+
 import AVFoundation
 
 extension VideoQueueTask {
     class Session {
         private let session: AVAssetExportSession?
-        
-        init(input: URL, output: URL, hevc: Bool) {
+        init(input: URL, output: URL, coding: Coding = .h264, quality: Quality = .high) {
             let inputAsset = AVURLAsset(url: input, options: nil)
-            let preset = hevc ? AVAssetExportPresetHEVCHighestQuality : AVAssetExportPresetHighestQuality
+            var preset = AVAssetExportPresetHEVCHighestQuality
+            switch coding {
+            case .h264:
+                switch quality {
+                case .high:
+                    preset = AVAssetExportPresetHighestQuality
+//                case .medium:
+//                    preset = AVAssetExportPresetMediumQuality
+//                case .low:
+//                    preset = AVAssetExportPresetLowQuality
+                }
+            default:
+                break
+            }
             self.session = AVAssetExportSession(asset: inputAsset, presetName: preset)
             self.session?.outputURL = output
             self.session?.outputFileType = .mp4

@@ -13,7 +13,8 @@ struct VideoExporterView: View {
     @State var outputPath: String = ""
     @State var openingFile: Bool = false
     @State var pathAlert: Bool = false
-    @State var usingH265: Bool = false
+    @State var videoCoding: VideoQueueTask.Coding = .h264
+    @State var videoQuality: VideoQueueTask.Quality = .high
     
     @State var queueObjects = [VideoQueueTask]()
     @State var historyObjects = [VideoQueueTask]()
@@ -25,7 +26,7 @@ struct VideoExporterView: View {
                     Text("Export Video Queue").font(.title)
                     Spacer()
                 }
-                .padding(.top, 20)
+//                .padding(.top, 20)
                 HStack(spacing: 10) {
                     TextField("Output Path", text: $outputPath)
                         .disabled(true)
@@ -42,19 +43,30 @@ struct VideoExporterView: View {
 //                    ProgressView(value: progress, total: 1)
                     Text("\(queueObjects.count) \(queueObjects.count == 1 ? "File" : "Files") in Queue")
                         .lineLimit(2)
-                    Spacer()
                     Button {
                         historyObjects.removeAll()
                     } label: {
                         Image(systemName: "trash.fill")
                         Text("Clean History")
                     }
-                    Picker(selection: $usingH265, label: EmptyView(), content: {
-                        Text("H264").tag(false)
-                        Text("H265").tag(true)
+                    Spacer()
+                }
+                HStack(spacing: 20) {
+                    Picker(selection: $videoCoding, label: Text("Coding:"), content: {
+                        ForEach(VideoQueueTask.Coding.allCases, id: \.rawValue) { code in
+                            Text(code.rawValue).tag(code)
+                        }
                     })
-                    .pickerStyle(SegmentedPickerStyle())
-                    .frame(width: 100)
+                    .frame(width: 150)
+                    if videoCoding == .h264 {
+                        Picker(selection: $videoQuality, label: Text("Quality:"), content: {
+                            ForEach(VideoQueueTask.Quality.allCases, id: \.rawValue) { qua in
+                                Text(qua.rawValue).tag(qua)
+                            }
+                        })
+                        .frame(width: 150)
+                    }
+                    Spacer()
                 }
 //                if let error = error {
 //                    HStack {
@@ -123,7 +135,7 @@ struct VideoExporterView: View {
             guard case .waiting = first.state else {
                 return
             }
-            first.start(outputPath: outputPath, hevc: usingH265, progress: nil) { res in
+            first.start(outputPath: outputPath, coding: self.videoCoding, quality: self.videoQuality, progress: nil) { res in
                 var errored = false
                 if case .failure = res {
                     errored = true
